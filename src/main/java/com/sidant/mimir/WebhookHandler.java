@@ -1,6 +1,6 @@
 package com.sidant.mimir;
 
-import com.sidant.mimir.TelegramBot.Bot;
+import com.sidant.mimir.TelegramBot.MimirBot;
 import com.sidant.mimir.TelegramBot.Types.Update;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class WebhookHandler {
 
-    static Bot mimirBot;
+    static MimirBot mimirBot;
 
     @GetMapping("/")
     public String index() {

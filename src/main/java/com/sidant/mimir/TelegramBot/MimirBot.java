@@ -2,22 +2,25 @@ package com.sidant.mimir.TelegramBot;
 
 import com.sidant.mimir.ContentMessages;
 import com.sidant.mimir.Exceptions.UnsupportedOperation;
+import com.sidant.mimir.Model.UserService;
 import com.sidant.mimir.TelegramBot.Types.Message;
 import com.sidant.mimir.TelegramBot.Types.Update;
+import com.sidant.mimir.TelegramBot.Types.User;
 import com.sidant.mimir.Types.MessageType;
 import com.sidant.mimir.Types.MimirResponse;
 import com.sidant.mimir.Utils.Helper;
 
-public class Bot {
+public class MimirBot {
 
     public void handleUpdate(Update update) {
 
         MimirResponse response;
 
         Message message = update.getMessage();
-        Integer chatId = message.getChat().getId();
+        User telegramUser = message.getFrom();
 
-        Boolean isUserRegistered = false;
+        // TODO: handle active boolean flag too
+        Boolean isUserRegistered = UserService.isUserRegistered(telegramUser.getId());
         String textMessage = message.getText();
 
         try {
@@ -25,11 +28,11 @@ public class Bot {
 
             String commandIdentifier = "/";
             if (textMessage.startsWith(commandIdentifier))
-                response = handleCommand(textMessage, isUserRegistered);
+                response = handleCommand(textMessage, isUserRegistered,telegramUser);
             else
                 response = isUserRegistered ?
                         handleContent(textMessage) :
-                        new MimirResponse(onboardNewUser(), MessageType.TEXT);
+                        new MimirResponse(onboardNewUser(telegramUser), MessageType.TEXT);
         }
         catch (UnsupportedOperation ex) {
             response = new MimirResponse(ex.getMessage(), MessageType.TEXT);
@@ -38,16 +41,18 @@ public class Bot {
         sendMessage(response);
     }
 
-    private MimirResponse handleCommand(String textMessage, Boolean isUserRegistered) {
+    private MimirResponse handleCommand(String textMessage,
+                                        Boolean isUserRegistered,
+                                        User telegramUser) {
 
         String content;
 
         switch (textMessage) {
             case "/start" -> content = isUserRegistered ?
-                    ContentMessages.ALREADY_REGISTERED : onboardNewUser();
+                    ContentMessages.ALREADY_REGISTERED : onboardNewUser(telegramUser);
             case "/stop" -> content = offboardUser();
             case "/help" -> content = ContentMessages.HELP;
-            default -> content = ContentMessages.UNKOWN_COMMAND;
+            default -> content = ContentMessages.UNKNOWN_COMMAND;
         }
 
         return new MimirResponse(content, MessageType.TEXT);
@@ -72,18 +77,23 @@ public class Bot {
         return new MimirResponse(content, responseType);
     }
 
-
     private void sendMessage(MimirResponse response){
 
     }
 
-    private String onboardNewUser() {
-        return "";
+    private String onboardNewUser(User telegramUser) {
+
+        UserService.registerUser(
+                telegramUser.getId(),
+                telegramUser.getUserName(),
+                telegramUser.getFirstName()
+        );
+        return ContentMessages.ONBOARD_MESSAGE;
     }
 
     private String offboardUser() {
-        return "";
-
+        // TODO: mark active flag as false
+        return ContentMessages.OFFBOARD_MESSAGE;
     }
 
 }
