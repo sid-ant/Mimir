@@ -1,5 +1,6 @@
 package com.sidant.mimir.TelegramBot;
 
+import com.sidant.mimir.ConfigurationMimir;
 import com.sidant.mimir.ContentMessages;
 import com.sidant.mimir.Exceptions.UnsupportedOperation;
 import com.sidant.mimir.Model.UserService;
@@ -9,13 +10,16 @@ import com.sidant.mimir.TelegramBot.Types.User;
 import com.sidant.mimir.Types.MessageType;
 import com.sidant.mimir.Types.MimirResponse;
 import com.sidant.mimir.Utils.Helper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MimirBot extends Methods {
 
+    @Autowired
+    private ConfigurationMimir mimirConfig;
+
     @Override
     String getAuthKey() {
-        // TODO: get this from config
-        return "okay";
+        return mimirConfig.getKey();
     }
 
     public void handleUpdate(Update update) {
@@ -45,6 +49,7 @@ public class MimirBot extends Methods {
             response = new MimirResponse(ex.getMessage(), MessageType.TEXT);
         }
 
+        // Please note that entire bot calls sendMessage only from here.
         sendMessage(chatId, response);
     }
 
