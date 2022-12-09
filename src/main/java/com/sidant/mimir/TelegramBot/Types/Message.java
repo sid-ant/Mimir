@@ -9,6 +9,8 @@ public class Message {
     Integer date; // Epoch
     Chat chat;
 
+    String text;
+
     public Integer getMessageId() {
         return messageId;
     }
@@ -56,6 +58,15 @@ public class Message {
     public void setChat(Chat chat) {
         this.chat = chat;
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
 
 
 }
