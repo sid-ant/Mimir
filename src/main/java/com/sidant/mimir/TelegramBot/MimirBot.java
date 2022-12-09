@@ -10,13 +10,20 @@ import com.sidant.mimir.Types.MessageType;
 import com.sidant.mimir.Types.MimirResponse;
 import com.sidant.mimir.Utils.Helper;
 
-public class MimirBot {
+public class MimirBot extends Methods {
+
+    @Override
+    String getAuthKey() {
+        // TODO: get this from config
+        return "okay";
+    }
 
     public void handleUpdate(Update update) {
 
         MimirResponse response;
 
         Message message = update.getMessage();
+        Integer chatId = message.getChat().getId();
         User telegramUser = message.getFrom();
 
         // TODO: handle active boolean flag too
@@ -38,13 +45,12 @@ public class MimirBot {
             response = new MimirResponse(ex.getMessage(), MessageType.TEXT);
         }
 
-        sendMessage(response);
+        sendMessage(chatId, response);
     }
 
     private MimirResponse handleCommand(String textMessage,
                                         Boolean isUserRegistered,
                                         User telegramUser) {
-
         String content;
 
         switch (textMessage) {
@@ -77,8 +83,13 @@ public class MimirBot {
         return new MimirResponse(content, responseType);
     }
 
-    private void sendMessage(MimirResponse response){
+    private void sendMessage(Integer chatId,
+                             MimirResponse response){
 
+        switch (response.getMessageType()) {
+            case PHOTO -> sendPhotoMessage(chatId, response.getContent());
+            case TEXT -> sendTextMessage(chatId, response.getContent());
+        }
     }
 
     private String onboardNewUser(User telegramUser) {

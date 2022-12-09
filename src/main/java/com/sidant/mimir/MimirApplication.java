@@ -11,7 +11,6 @@ public class MimirApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MimirApplication.class, args);
 	}
-
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();
