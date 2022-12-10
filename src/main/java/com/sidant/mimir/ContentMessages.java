@@ -1,5 +1,8 @@
 package com.sidant.mimir;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ContentMessages {
 
     public static final String ALREADY_REGISTERED = "It looks like you are already registered!";

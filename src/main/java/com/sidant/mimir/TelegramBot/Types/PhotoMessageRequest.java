@@ -1,8 +1,12 @@
 package com.sidant.mimir.TelegramBot.Types;
 
-public class PhotoMessageRequest {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class PhotoMessageRequest {
+    @JsonProperty("chat_id")
     Integer chatId;
+
+    @JsonProperty("photo")
     String photo;
 
     public PhotoMessageRequest(Integer chatId, String photo) {

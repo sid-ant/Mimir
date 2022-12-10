@@ -1,6 +1,5 @@
 package com.sidant.mimir.TelegramBot;
 
-import com.sidant.mimir.ConfigurationMimir;
 import com.sidant.mimir.ContentMessages;
 import com.sidant.mimir.Exceptions.UnsupportedOperation;
 import com.sidant.mimir.Model.UserService;
@@ -10,19 +9,28 @@ import com.sidant.mimir.TelegramBot.Types.User;
 import com.sidant.mimir.Types.MessageType;
 import com.sidant.mimir.Types.MimirResponse;
 import com.sidant.mimir.Utils.Helper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+
+@Component
 public class MimirBot extends Methods {
 
     @Autowired
-    private ConfigurationMimir mimirConfig;
+    UserService userService;
+
+    Logger logger = LoggerFactory.getLogger(MimirBot.class);
 
     @Override
     String getAuthKey() {
-        return mimirConfig.getKey();
+        return "";
     }
 
     public void handleUpdate(Update update) {
+
+        logger.info("handleUpdate start");
 
         MimirResponse response;
 
@@ -31,7 +39,7 @@ public class MimirBot extends Methods {
         User telegramUser = message.getFrom();
 
         // TODO: handle active boolean flag too
-        Boolean isUserRegistered = UserService.isUserRegistered(telegramUser.getId());
+        Boolean isUserRegistered = userService.isUserRegistered(telegramUser.getId());
         String textMessage = message.getText();
 
         try {
@@ -49,13 +57,23 @@ public class MimirBot extends Methods {
             response = new MimirResponse(ex.getMessage(), MessageType.TEXT);
         }
 
+        logger.info("handleUpdate end");
+        logger.info("response is {}",response.getContent());
+
+        // TODO: Add Telemetry ( Message )
+        // TODO: Add Usage
+
+        //T
+
         // Please note that entire bot calls sendMessage only from here.
-        sendMessage(chatId, response);
+        // sendMessage(chatId, response);
     }
 
     private MimirResponse handleCommand(String textMessage,
                                         Boolean isUserRegistered,
                                         User telegramUser) {
+        logger.info("handleCommand start");
+
         String content;
 
         switch (textMessage) {
@@ -66,10 +84,13 @@ public class MimirBot extends Methods {
             default -> content = ContentMessages.UNKNOWN_COMMAND;
         }
 
+        logger.info("handleCommand end");
         return new MimirResponse(content, MessageType.TEXT);
     }
 
     private MimirResponse handleContent(String textMessage) {
+
+        logger.info("handleContent start");
 
         String content;
         MessageType responseType;
@@ -78,7 +99,7 @@ public class MimirBot extends Methods {
             String prompt = textMessage.substring(6)
                     .stripLeading()
                     .stripTrailing();
-            content = "call the photo api";
+            content = "https://images.pexels.com/photos/8386356/pexels-photo-8386356.jpeg";
             responseType = MessageType.PHOTO;
         } else {
             content = "response from the text api";
@@ -91,19 +112,22 @@ public class MimirBot extends Methods {
     private void sendMessage(Integer chatId,
                              MimirResponse response){
 
+        logger.info("sendMessage start");
         switch (response.getMessageType()) {
             case PHOTO -> sendPhotoMessage(chatId, response.getContent());
             case TEXT -> sendTextMessage(chatId, response.getContent());
         }
+        logger.info("sendMessage end");
     }
 
     private String onboardNewUser(User telegramUser) {
-
-        UserService.registerUser(
+        logger.info("onboardNewUser start");
+        userService.registerUser(
                 telegramUser.getId(),
                 telegramUser.getUserName(),
                 telegramUser.getFirstName()
         );
+        logger.info("onboardNewUser end");
         return ContentMessages.ONBOARD_MESSAGE;
     }
 

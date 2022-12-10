@@ -1,27 +1,23 @@
 package com.sidant.mimir.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
-import java.sql.Date;
+import jakarta.persistence.*;
 
 @Entity
-public class User {
+public class BotUsers {
 
-    private @Id @GeneratedValue Long id;
-    private Integer user_id;
+    private @Id @GeneratedValue @Column Long id;
+    private @Column(unique = true)Long userId;
+    private @Column String firstName;
 
-    private String firstName;
+    private @Column String username;
+    private @Column Boolean active;
 
-    private String username;
-    private Boolean active;
+    public BotUsers() {
 
-    protected User() {
     }
 
-    public User(Integer user_id, String firstName, String username, Boolean active) {
-        this.user_id = user_id;
+    public BotUsers(Long userId, String firstName, String username, Boolean active) {
+        this.userId = userId;
         this.firstName = firstName;
         this.username = username;
         this.active = active;
@@ -35,12 +31,12 @@ public class User {
         this.id = id;
     }
 
-    public Integer getUser_id() {
-        return user_id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser_id(Integer user_id) {
-        this.user_id = user_id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -70,7 +66,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
+                "userId=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", username='" + username + '\'' +
                 ", active=" + active +

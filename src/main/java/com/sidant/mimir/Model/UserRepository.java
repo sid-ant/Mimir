@@ -1,18 +1,18 @@
 package com.sidant.mimir.Model;
 
-import com.sidant.mimir.Model.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<User, Long> {
+@Repository
+public interface UserRepository extends CrudRepository<BotUsers, Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<BotUsers> findByUsername(String username);
 
-    Optional<User> findByUserId(Integer userId);
+    Optional<BotUsers> findByUserId(long userId);
 
-    Optional<User> findById(long id);
+    Optional<BotUsers> findById(long id);
 
 
 }

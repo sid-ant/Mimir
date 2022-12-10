@@ -1,9 +1,15 @@
 package com.sidant.mimir.TelegramBot.Types;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Update {
 
+    @JsonProperty("update_id")
     Integer updateId;
+
+    @JsonProperty("message")
     Message message;
+    @JsonProperty("edited_message")
     Message editedMessage;
     Message channelPost;
     Message editedChannelPost;

@@ -1,24 +1,25 @@
 package com.sidant.mimir.TelegramBot.Types;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class User {
 
-    Integer id;
-    Boolean isBot;
-    String firstName;
-    String lastName;
-    String userName;
-    String languageCode;
-    Boolean isPremium;
-    Boolean addedToAttachmentMenu;
-    Boolean canJoinGroups;
-    Boolean canReadAllGroupMessages;
-    Boolean supportsInlineQueries;
+    Long id;
 
-    public Integer getId() {
+    @JsonProperty("is_bot")
+    Boolean isBot;
+    @JsonProperty("first_name")
+    String firstName;
+    @JsonProperty("last_name")
+    String lastName;
+    @JsonProperty("user_name")
+    String userName;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -53,58 +54,4 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
-    public String getLanguageCode() {
-        return languageCode;
-    }
-
-    public void setLanguageCode(String languageCode) {
-        this.languageCode = languageCode;
-    }
-
-    public Boolean getPremium() {
-        return isPremium;
-    }
-
-    public void setPremium(Boolean premium) {
-        isPremium = premium;
-    }
-
-    public Boolean getAddedToAttachmentMenu() {
-        return addedToAttachmentMenu;
-    }
-
-    public void setAddedToAttachmentMenu(Boolean addedToAttachmentMenu) {
-        this.addedToAttachmentMenu = addedToAttachmentMenu;
-    }
-
-    public Boolean getCanJoinGroups() {
-        return canJoinGroups;
-    }
-
-    public void setCanJoinGroups(Boolean canJoinGroups) {
-        this.canJoinGroups = canJoinGroups;
-    }
-
-    public Boolean getCanReadAllGroupMessages() {
-        return canReadAllGroupMessages;
-    }
-
-    public void setCanReadAllGroupMessages(Boolean canReadAllGroupMessages) {
-        this.canReadAllGroupMessages = canReadAllGroupMessages;
-    }
-
-    public Boolean getSupportsInlineQueries() {
-        return supportsInlineQueries;
-    }
-
-    public void setSupportsInlineQueries(Boolean supportsInlineQueries) {
-        this.supportsInlineQueries = supportsInlineQueries;
-    }
-
-
-
-
-
-
 }

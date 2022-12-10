@@ -1,20 +1,39 @@
 package com.sidant.mimir.TelegramBot.Types;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Chat {
 
+    @JsonProperty("id")
     Integer id;
+
+    @JsonProperty("type")
     String type;
+
+    @JsonProperty("title")
     String title;
+
+    @JsonProperty("username")
     String username;
+
+    @JsonProperty("first_name")
     String firstName;
+
+    @JsonProperty("last_name")
     String lastname;
+
+    @JsonProperty("is_forum")
     Boolean isForum;
+
+    @JsonProperty("photo")
     Object photo;
+
+    @JsonProperty("active_usernames")
     String[] activeUsernames;
-    String emojiStatusCustomEmojiId;
+
+    @JsonProperty("bio")
     String bio;
 
     public Chat() {
@@ -90,14 +109,6 @@ public class Chat {
 
     public void setActiveUsernames(String[] activeUsernames) {
         this.activeUsernames = activeUsernames;
-    }
-
-    public String getEmojiStatusCustomEmojiId() {
-        return emojiStatusCustomEmojiId;
-    }
-
-    public void setEmojiStatusCustomEmojiId(String emojiStatusCustomEmojiId) {
-        this.emojiStatusCustomEmojiId = emojiStatusCustomEmojiId;
     }
 
     public String getBio() {

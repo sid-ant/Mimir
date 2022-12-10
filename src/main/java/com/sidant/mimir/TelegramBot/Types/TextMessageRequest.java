@@ -1,8 +1,12 @@
 package com.sidant.mimir.TelegramBot.Types;
 
-public class TextMessageRequest {
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class TextMessageRequest {
+    @JsonProperty("chat_id")
     Integer chatId;
+
+    @JsonProperty("text")
     String text;
 
     public TextMessageRequest(Integer chatId, String text) {
