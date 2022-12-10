@@ -69,10 +69,9 @@ public class MimirBot extends Methods {
         logger.info("response is {}",response.getContent());
 
         // Please note that entire bot calls sendMessage only from here.
-        // sendMessage(chatId, response);
+         sendMessage(chatId, response);
 
         // TODO : The following usage and telemetry updates should happen asynchronously ( vis a queue? )
-
         logger.info("telemetry start");
 
         usageService.addUsage(telegramUser.getId(),
@@ -85,7 +84,6 @@ public class MimirBot extends Methods {
         }
 
         logger.info("telemetry end");
-
         logger.info("handleUpdate end");
 
     }
