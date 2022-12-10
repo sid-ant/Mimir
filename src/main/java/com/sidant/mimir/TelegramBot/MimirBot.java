@@ -14,6 +14,7 @@ import com.sidant.mimir.Utils.Helper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 
@@ -31,9 +32,12 @@ public class MimirBot extends Methods {
 
     Logger logger = LoggerFactory.getLogger(MimirBot.class);
 
+    @Value("${mimir.key}")
+    private String authKey;
+
     @Override
     String getAuthKey() {
-        return "";
+        return authKey;
     }
 
     public void handleUpdate(Update update) {

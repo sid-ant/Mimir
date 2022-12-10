@@ -12,7 +12,6 @@ public class MimirApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MimirApplication.class, args);
-		//WebhookHandler.mimirBot = new MimirBot();
 	}
 	@Bean
 	public RestTemplate getRestTemplate() {

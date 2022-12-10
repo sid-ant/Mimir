@@ -31,11 +31,16 @@ public abstract class Methods {
             Integer chatId,
             String textMessage) {
 
+        logger.info("sendTextMessage start");
+
         HttpEntity<TextMessageRequest> request = new HttpEntity<>(new TextMessageRequest(chatId, textMessage));
 
         try {
+            String resourceUrl = getResourceUrl("sendMessage");
+            logger.info("url formed {}",resourceUrl);
+
             ResponseEntity<Message> response = restTemplate.exchange(
-                    getResourceUrl("sendMessage"),
+                    resourceUrl,
                     HttpMethod.POST,
                     request,
                     Message.class);
@@ -48,17 +53,22 @@ public abstract class Methods {
             logger.error("Error in sendTextMessage {}", e.getMessage());
         }
 
+        logger.info("sendTextMessage end");
+
     }
 
     protected void sendPhotoMessage(
             Integer chatId,
             String photoUrl) {
 
+        logger.info("sendPhotoMessage start");
         HttpEntity<PhotoMessageRequest> request = new HttpEntity<>(new PhotoMessageRequest(chatId, photoUrl));
 
         try {
+            String resourceUrl = getResourceUrl("sendPhoto");
+            logger.info("url formed {}",resourceUrl);
             ResponseEntity<Message> response = restTemplate.exchange(
-                    getResourceUrl("sendPhoto"),
+                    resourceUrl,
                     HttpMethod.POST,
                     request,
                     Message.class);
@@ -68,6 +78,8 @@ public abstract class Methods {
         } catch (Exception e){
             logger.error("Error in sendPhotoMessage {}", e.getMessage());
         }
+
+        logger.info("sendPhotoMessage end");
 
     }
 
