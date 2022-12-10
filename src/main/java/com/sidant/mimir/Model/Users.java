@@ -3,20 +3,20 @@ package com.sidant.mimir.Model;
 import jakarta.persistence.*;
 
 @Entity
-public class BotUsers {
+public class Users {
 
     private @Id @GeneratedValue @Column Long id;
-    private @Column(unique = true)Long userId;
+    private @Column(unique = true) Long userId;
     private @Column String firstName;
 
     private @Column String username;
     private @Column Boolean active;
 
-    public BotUsers() {
+    public Users() {
 
     }
 
-    public BotUsers(Long userId, String firstName, String username, Boolean active) {
+    public Users(Long userId, String firstName, String username, Boolean active) {
         this.userId = userId;
         this.firstName = firstName;
         this.username = username;

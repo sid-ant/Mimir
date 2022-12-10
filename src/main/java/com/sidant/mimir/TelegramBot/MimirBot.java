@@ -2,6 +2,8 @@ package com.sidant.mimir.TelegramBot;
 
 import com.sidant.mimir.ContentMessages;
 import com.sidant.mimir.Exceptions.UnsupportedOperation;
+import com.sidant.mimir.Model.TelemetryService;
+import com.sidant.mimir.Model.UsageService;
 import com.sidant.mimir.Model.UserService;
 import com.sidant.mimir.TelegramBot.Types.Message;
 import com.sidant.mimir.TelegramBot.Types.Update;
@@ -21,6 +23,12 @@ public class MimirBot extends Methods {
     @Autowired
     UserService userService;
 
+    @Autowired
+    UsageService usageService;
+
+    @Autowired
+    TelemetryService telemetryService;
+
     Logger logger = LoggerFactory.getLogger(MimirBot.class);
 
     @Override
@@ -37,9 +45,10 @@ public class MimirBot extends Methods {
         Message message = update.getMessage();
         Integer chatId = message.getChat().getId();
         User telegramUser = message.getFrom();
+        Long userId = telegramUser.getId();
 
         // TODO: handle active boolean flag too
-        Boolean isUserRegistered = userService.isUserRegistered(telegramUser.getId());
+        Boolean isUserRegistered = userService.isUserRegistered(userId);
         String textMessage = message.getText();
 
         try {
@@ -57,16 +66,28 @@ public class MimirBot extends Methods {
             response = new MimirResponse(ex.getMessage(), MessageType.TEXT);
         }
 
-        logger.info("handleUpdate end");
         logger.info("response is {}",response.getContent());
-
-        // TODO: Add Telemetry ( Message )
-        // TODO: Add Usage
-
-        //T
 
         // Please note that entire bot calls sendMessage only from here.
         // sendMessage(chatId, response);
+
+        // TODO : The following usage and telemetry updates should happen asynchronously ( vis a queue? )
+
+        logger.info("telemetry start");
+
+        usageService.addUsage(telegramUser.getId(),
+                telegramUser.getFirstName(),
+                textMessage);
+
+        switch (response.getMessageType()) {
+            case PHOTO -> telemetryService.incrementPhoto(userId);
+            case TEXT ->  telemetryService.incrementText(userId);
+        }
+
+        logger.info("telemetry end");
+
+        logger.info("handleUpdate end");
+
     }
 
     private MimirResponse handleCommand(String textMessage,

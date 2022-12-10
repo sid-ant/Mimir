@@ -12,13 +12,13 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UsersRepository usersRepository;
 
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public Boolean isUserRegistered(Long userId) {
         logger.info("user-id lookup {}",userId);
-        Optional<BotUsers> user = userRepository.findByUserId(userId);
+        Optional<Users> user = usersRepository.findByUserId(userId);
         return user.isPresent();
     }
 
@@ -27,8 +27,8 @@ public class UserService {
             String username,
             String firstName
     ) {
-        BotUsers newUser = new BotUsers(userId,firstName,username,true);
-        userRepository.save(newUser);
+        Users newUser = new Users(userId,firstName,username,true);
+        usersRepository.save(newUser);
     }
 
 
