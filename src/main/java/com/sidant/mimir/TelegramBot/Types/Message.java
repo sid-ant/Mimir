@@ -1,14 +1,13 @@
 package com.sidant.mimir.TelegramBot.Types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Message {
 
     @JsonProperty("message_id")
-    Integer messageId;
-
-    @JsonProperty("message_thread_id")
-    Integer messageThreadId; // Optional
+    Long messageId;
 
     @JsonProperty("from")
     User from;
@@ -17,7 +16,7 @@ public class Message {
     Chat senderChat;
 
     @JsonProperty("date")
-    Integer date; // Epoch
+    Long date; // Epoch
 
     @JsonProperty("chat")
     Chat chat;
@@ -25,20 +24,12 @@ public class Message {
     @JsonProperty("text")
     String text;
 
-    public Integer getMessageId() {
+    public Long getMessageId() {
         return messageId;
     }
 
-    public void setMessageId(Integer messageId) {
+    public void setMessageId(Long messageId) {
         this.messageId = messageId;
-    }
-
-    public Integer getMessageThreadId() {
-        return messageThreadId;
-    }
-
-    public void setMessageThreadId(Integer messageThreadId) {
-        this.messageThreadId = messageThreadId;
     }
 
     public User getFrom() {
@@ -57,11 +48,11 @@ public class Message {
         this.senderChat = senderChat;
     }
 
-    public Integer getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

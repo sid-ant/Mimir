@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PhotoMessageRequest {
     @JsonProperty("chat_id")
-    Integer chatId;
+    Long chatId;
 
     @JsonProperty("photo")
     String photo;
 
-    public PhotoMessageRequest(Integer chatId, String photo) {
+    public PhotoMessageRequest(Long chatId, String photo) {
         this.chatId = chatId;
         this.photo = photo;
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 

@@ -19,6 +19,7 @@ public class WebhookHandler {
         return "Hello World!";
     }
 
+    // TODO: To use webhooks, I need to setup a domain + https cert
     @PostMapping("/handlemimir")
     public void handleMimir(@RequestBody Update update) {
         mimirBot.handleUpdate(update);

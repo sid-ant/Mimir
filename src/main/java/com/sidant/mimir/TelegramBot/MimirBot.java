@@ -40,6 +40,7 @@ public class MimirBot extends Methods {
         return authKey;
     }
 
+    @Override
     public void handleUpdate(Update update) {
 
         logger.info("handleUpdate start");
@@ -47,7 +48,7 @@ public class MimirBot extends Methods {
         MimirResponse response;
 
         Message message = update.getMessage();
-        Integer chatId = message.getChat().getId();
+        Long chatId = message.getChat().getId();
         User telegramUser = message.getFrom();
         Long userId = telegramUser.getId();
 
@@ -132,7 +133,7 @@ public class MimirBot extends Methods {
         return new MimirResponse(content, responseType);
     }
 
-    private void sendMessage(Integer chatId,
+    private void sendMessage(Long chatId,
                              MimirResponse response){
 
         logger.info("sendMessage start");

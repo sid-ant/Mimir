@@ -4,21 +4,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class TextMessageRequest {
     @JsonProperty("chat_id")
-    Integer chatId;
+    Long chatId;
 
     @JsonProperty("text")
     String text;
 
-    public TextMessageRequest(Integer chatId, String text) {
+    public TextMessageRequest(Long chatId, String text) {
         this.chatId = chatId;
         this.text = text;
     }
 
-    public Integer getChatId() {
+    public Long getChatId() {
         return chatId;
     }
 
-    public void setChatId(Integer chatId) {
+    public void setChatId(Long chatId) {
         this.chatId = chatId;
     }
 

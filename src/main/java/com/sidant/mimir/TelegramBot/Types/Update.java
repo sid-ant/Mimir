@@ -1,11 +1,13 @@
 package com.sidant.mimir.TelegramBot.Types;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Update {
 
     @JsonProperty("update_id")
-    Integer updateId;
+    Long updateId;
 
     @JsonProperty("message")
     Message message;
@@ -14,11 +16,11 @@ public class Update {
     Message channelPost;
     Message editedChannelPost;
 
-    public Integer getUpdateId() {
+    public Long getUpdateId() {
         return updateId;
     }
 
-    public void setUpdateId(Integer updateId) {
+    public void setUpdateId(Long updateId) {
         this.updateId = updateId;
     }
 
@@ -54,9 +56,4 @@ public class Update {
         this.editedChannelPost = editedChannelPost;
     }
 
-
-//    Object inlineQuery;
-//    Object chosenInlineResult;
-//    Object callbackQuery;
-//    Object shippingQuery;
 }

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Chat {
 
     @JsonProperty("id")
-    Integer id;
+    Long id;
 
     @JsonProperty("type")
     String type;
@@ -39,11 +39,11 @@ public class Chat {
     public Chat() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
