@@ -62,13 +62,14 @@ public class MimirBot extends Methods {
 
         try {
             Helper.validateText(textMessage);
+            logger.info("user prompt is {}", textMessage);
 
             String commandIdentifier = "/";
             if (textMessage.startsWith(commandIdentifier))
                 response = handleCommand(textMessage, isUserRegistered,telegramUser);
             else
                 response = isUserRegistered ?
-                        handleContent(textMessage) :
+                        handleContent(textMessage, userId) :
                         new MimirResponse(onboardNewUser(telegramUser), MessageType.TEXT);
         }
         catch (UnsupportedOperation ex) {
@@ -116,7 +117,7 @@ public class MimirBot extends Methods {
         return new MimirResponse(content, MessageType.TEXT);
     }
 
-    private MimirResponse handleContent(String textMessage) {
+    private MimirResponse handleContent(String textMessage, Long userId) {
 
         logger.info("handleContent start");
 
@@ -127,7 +128,8 @@ public class MimirBot extends Methods {
             String prompt = textMessage.substring(6)
                     .stripLeading()
                     .stripTrailing();
-            content = "https://images.pexels.com/photos/8386356/pexels-photo-8386356.jpeg";
+            // content = "https://images.pexels.com/photos/8386356/pexels-photo-8386356.jpeg";
+            content = openAI.getDallEPicture(prompt, userId);
             responseType = MessageType.PHOTO;
         } else {
             content = openAI.sendTextPrompt(textMessage);
