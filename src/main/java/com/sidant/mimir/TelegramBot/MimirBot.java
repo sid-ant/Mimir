@@ -5,6 +5,7 @@ import com.sidant.mimir.Exceptions.UnsupportedOperation;
 import com.sidant.mimir.Model.TelemetryService;
 import com.sidant.mimir.Model.UsageService;
 import com.sidant.mimir.Model.UserService;
+import com.sidant.mimir.OpenAI.OpenAI;
 import com.sidant.mimir.TelegramBot.Types.Message;
 import com.sidant.mimir.TelegramBot.Types.Update;
 import com.sidant.mimir.TelegramBot.Types.User;
@@ -29,6 +30,9 @@ public class MimirBot extends Methods {
 
     @Autowired
     TelemetryService telemetryService;
+
+    @Autowired
+    OpenAI openAI;
 
     Logger logger = LoggerFactory.getLogger(MimirBot.class);
 
@@ -126,7 +130,7 @@ public class MimirBot extends Methods {
             content = "https://images.pexels.com/photos/8386356/pexels-photo-8386356.jpeg";
             responseType = MessageType.PHOTO;
         } else {
-            content = "response from the text api";
+            content = openAI.sendTextPrompt(textMessage);
             responseType = MessageType.TEXT;
         }
 
